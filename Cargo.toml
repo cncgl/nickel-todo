@@ -1,0 +1,7 @@
+[package]
+name = "nickel-todo"
+version = "0.1.0"
+authors = ["cncgl <concigel@gmail.com>"]
+
+[dependencies]
+nickel = "*"
