@@ -1,7 +1,6 @@
 extern crate rustc_serialize;
 extern crate hyper;
 
-//use rustc_serialize::json::{Json, Parser};
 use rustc_serialize::{json};
 #[macro_use] extern crate nickel;
 
@@ -15,15 +14,10 @@ struct Todo {
 }
 
 fn main() {
-  // println!("Hello, world!");
   let mut server = Nickel::new();
   let mut router = Nickel::router();
 
-  //server.utilize(router! {
-  //  get "**" => |_req, _res| {
-  //    "Hello World!"
-  //  }
-  //});
+  // index
   router.get("/api/todos", middleware! { |_, mut _res|
     let mut v: Vec<Todo> = vec![];
     let todo1 = Todo{
@@ -38,6 +32,21 @@ fn main() {
     v.push(todo2);
 
     let json_obj = json::encode(&v).unwrap();
+    _res.set(MediaType::Json);
+    _res.set(StatusCode::Ok);
+    return _res.send(json_obj);
+  });
+
+  // detail
+  router.get("/api/todos/:id", middleware! { |_req, mut _res|
+    let id = _req.param("id");
+    println!("id: {:?}", id);
+
+    let todo1 = Todo{
+      status: 0,
+      title: "Shopping".to_string(),
+    };
+    let json_obj = json::encode(&todo1).unwrap();
     _res.set(MediaType::Json);
     _res.set(StatusCode::Ok);
     return _res.send(json_obj);
