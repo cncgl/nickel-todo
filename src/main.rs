@@ -1,7 +1,8 @@
 extern crate rustc_serialize;
 extern crate hyper;
 
-use rustc_serialize::{json};
+use rustc_serialize::json;
+use rustc_serialize::json::Json;
 #[macro_use] extern crate nickel;
 
 use nickel::status::StatusCode;
@@ -48,6 +49,18 @@ fn main() {
     };
     let json_obj = json::encode(&todo1).unwrap();
     _res.set(MediaType::Json);
+    _res.set(StatusCode::Ok);
+    return _res.send(json_obj);
+  });
+
+  // delete
+  router.delete("/api/todos/:id", middleware! { |_req, mut _res|
+    let id = _req.param("id");
+    println!("delete id: {:?}", id);
+
+    let json_obj = Json::from_str("{}").unwrap();
+    _res.set(MediaType::Json);
+    //_res.set(StatusCode::NoContent);
     _res.set(StatusCode::Ok);
     return _res.send(json_obj);
   });
