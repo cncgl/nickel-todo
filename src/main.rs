@@ -6,7 +6,7 @@ use rustc_serialize::json::Json;
 #[macro_use] extern crate nickel;
 
 use nickel::status::StatusCode;
-use nickel::{Nickel, HttpRouter, MediaType, JsonBody};
+use nickel::{Nickel, HttpRouter, MediaType};
 
 #[derive(RustcDecodable, RustcEncodable)]
 struct Todo {
@@ -59,30 +59,6 @@ fn main() {
     println!("delete id: {:?}", id);
 
     let json_obj = Json::from_str("{}").unwrap();
-    _res.set(MediaType::Json);
-    _res.set(StatusCode::Ok);
-    return _res.send(json_obj);
-  });
-
-  // create
-  router.post("/api/todos", middleware! { |_req, mut _res|
-    let todo = _req.json_as::<Todo>().unwrap();
-    println!("post todo: {} {}", todo.status, todo.title);
-
-    let json_obj = json::encode(&todo).unwrap();
-    _res.set(MediaType::Json);
-    _res.set(StatusCode::Created);
-    return _res.send(json_obj);
-  });
-
-  // update
-  router.put("/api/todos/:id", middleware! { |_req, mut _res|
-    // let id = _req.param("id");
-    let todo = _req.json_as::<Todo>().unwrap();
-    // println!("post todo: {:?} {} {}", id, todo.status, todo.title);
-    println!("post todo: {} {}", todo.status, todo.title);
-
-    let json_obj = json::encode(&todo).unwrap();
     _res.set(MediaType::Json);
     _res.set(StatusCode::Ok);
     return _res.send(json_obj);
