@@ -65,9 +65,16 @@ fn main() {
   });
 
   // create
+  router.post("/api/todos", middleware! { |_req, mut _res|
+
+    let json_obj = Json::from_str("{}").unwrap();
+    _res.set(MediaType::Json);
+    _res.set(StatusCode::Created);
+    return _res.send(json_obj);
+  });
 
   // update
-  
+
 
   server.utilize(router);
   server.listen("127.0.0.1:6767");
