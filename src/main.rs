@@ -6,7 +6,7 @@ use rustc_serialize::json::Json;
 #[macro_use] extern crate nickel;
 
 use nickel::status::StatusCode;
-use nickel::{Nickel, HttpRouter, MediaType};
+use nickel::{Nickel, HttpRouter, MediaType, JsonBody};
 
 #[derive(RustcDecodable, RustcEncodable)]
 struct Todo {
@@ -66,6 +66,10 @@ fn main() {
 
   // create
   router.post("/api/todos", middleware! { |_req, mut _res|
+    let todo   = _req.json_as::<Todo>().unwrap();
+    let status = todo.status;
+    let title  = todo.title.to_string();
+    println!("create status {:?} title {}", status, title);
 
     let json_obj = Json::from_str("{}").unwrap();
     _res.set(MediaType::Json);
