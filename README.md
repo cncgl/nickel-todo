@@ -4,6 +4,17 @@ A toto application for Nickel on Rust
 
 [![Build Status](https://travis-ci.org/cncgl/nickel-todo.svg?branch=master)](https://travis-ci.org/cncgl/nickel-todo)
 
+
+## Prepare Database
+Create user ``postgres`` with password ``postgres`` on PostgreSQL.
+
+Install Diesel cli
+```
+$ cargo install diesel_cli
+$ diesel setup
+$ diesel migration run
+```
+
 ## Install
 ```
 $ cargo build --verbose
